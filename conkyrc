@@ -1,0 +1,103 @@
+########################################################################
+# Conky Configuration File (~/.conkyrc)
+# Author: Michael Cleaver <mc108106@ohio.edu>
+# Based on a config I found on the internet. I wish I'd written down the
+#    address to give proper attribution, but I din't think of that at
+#    the time. I'm pretty sure it was a German site.
+########################################################################
+background yes
+use_xft yes
+xftfont cure:size=9
+xftalpha 1
+update_interval 1.0
+total_run_times 0
+own_window yes
+own_window_transparent yes
+own_window_type desktop
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+minimum_size 220 0
+maximum_width 255
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders no
+#default_color d8d8d8
+#default_shade_color 000000
+#default_outline_color d9d7d6
+alignment top_right
+gap_x 12
+gap_y 24
+no_buffers yes
+uppercase no
+cpu_avg_samples 4
+override_utf8_locale no
+ 
+#time, date, hostname, kernel, etc.
+TEXT
+${time %H:%M} ${color 00B0AE}${time %a, }${color 989898}${time %b %d %G} $alignr${color 00B0AE}UP ${color 989898}$uptime
+${color 00B0AE}${font OpenLogos}$nodename $font${color 989898}$kernel on $machine ${color a8a8a8}$hr
+#CPU load followed by the pretty load graph
+${color 00B0AE}CORE1${color 989898}                         $alignr${cpu cpu0}%/${freq_g 1}Ghz
+${color 00B0AE}CORE2${color 989898}                         $alignr${cpu cpu1}%/${freq_g 2}Ghz
+${color 00B0AE}CORE3${color 989898}                         $alignr${cpu cpu2}%/${freq_g 3}Ghz
+${color 00B0AE}CORE4${color 989898}                         $alignr${cpu cpu3}%/${freq_g 4}Ghz
+${color 00B0AE}CORE5${color 989898}                         $alignr${cpu cpu4}%/${freq_g 4}Ghz
+${color 00B0AE}CORE6${color 989898}                         $alignr${cpu cpu5}%/${freq_g 5}Ghz
+${color 00B0AE}${cpugraph 00B0AE 00B0AE}
+${color 00B0AE}RAM${color 989898}$alignr$mem/$memmax - $memperc%
+${color lightgrey}${membar}
+${color 00B0AE}SWAP${color 989898}$alignr$swap/$swapmax - $swapperc%
+${color lightgrey}${swapbar}
+${color 00B0AE}ROOT${color 989898}$alignr${fs_used /}/${fs_size /} - ${fs_free_perc /}%
+$color${fs_bar /}
+${color 00B0AE}HOME${color 989898}$alignr${fs_used /home}/${fs_size /home} - ${fs_free_perc /home}%
+$color${fs_bar /home}
+
+#temperature - need to get GPU temp working
+${color 989898}TEMPERATURE${color a8a8a8}$hr
+${color 00B0AE}CPU$alignr GPU
+${color lightgrey}${hwmon temp 1}C$alignr XXC
+ 
+#top processes by CPU% and then by mem%
+${color 989898}PROCESSES${color a8a8a8} ($running_processes/$processes)$hr
+${color 00B0AE}Name              $alignr PID    CPU% MEM%
+${color lightgrey} ${top name 1} $alignr${top pid 1} ${top cpu 1}  ${top mem 1}
+${color lightgrey} ${top name 2} $alignr${top pid 2} ${top cpu 2}  ${top mem 2}
+${color lightgrey} ${top name 3} $alignr${top pid 3} ${top cpu 3}  ${top mem 3}
+${color lightgrey} ${top name 4} $alignr${top pid 4} ${top cpu 4}  ${top mem 4}
+${color lightgrey} ${top name 5} $alignr${top pid 5} ${top cpu 5}  ${top mem 5}
+${color lightgrey} ${top name 6} $alignr${top pid 6} ${top cpu 6}  ${top mem 6}
+${color 00B0AE}Mem usage
+${color lightgrey} ${top_mem name 1} $alignr${top_mem pid 1} ${top_mem cpu 1}  ${top_mem mem 1}
+${color lightgrey} ${top_mem name 2} $alignr${top_mem pid 2} ${top_mem cpu 2}  ${top_mem mem 2}
+${color lightgrey} ${top_mem name 3} $alignr${top_mem pid 3} ${top_mem cpu 3}  ${top_mem mem 3}
+${color lightgrey} ${top_mem name 4} $alignr${top_mem pid 4} ${top_mem cpu 4}  ${top_mem mem 4}
+${color lightgrey} ${top_mem name 5} $alignr${top_mem pid 5} ${top_mem cpu 5}  ${top_mem mem 5}
+${color lightgrey} ${top_mem name 6} $alignr${top_mem pid 6} ${top_mem cpu 6}  ${top_mem mem 6}
+ 
+#networking
+${color 989898}NETWORK${color a8a8a8}$hr
+${color 00B0AE}down$font${color 989898}$alignr${downspeed eth0}k/s ${color 00B0AE}| $font${color 989898} ${totaldown eth0}
+${color 00B0AE}up$font${color 989898}$alignr${upspeed eth0}k/s ${color 00B0AE}| $font${color 989898} ${totalup eth0}
+${color #00B0AE}${downspeedgraph eth0 20,125 00B0AE} ${color #00B0AE}${upspeedgraph eth0 20,125 00B0AE}
+ 
+# checks every 2 hours
+${color 00B0AE}Global IP${color 989898}$alignr${execi 7200 curl www.whatismyip.org}
+${color 00B0AE}Local IP${color 989898}$alignr${addr eth0}
+ 
+${color 989898}CONNECTIONS${color a8a8a8}$hr
+${color #00B0AE}Connection(s)${alignr}#Connections
+$color Inbound: ${tcp_portmon 1 32767 count}  Outbound: ${tcp_portmon 32768 61000 count}${alignr}  ALL: ${tcp_portmon 1 65535 count}
+${color #00B0AE}Inbound Connection ${alignr} Local Service/Port$color
+${tcp_portmon 1 32767 rhost 0} ${alignr} ${tcp_portmon 1 32767 lservice 0}
+${tcp_portmon 1 32767 rhost 1} ${alignr} ${tcp_portmon 1 32767 lservice 1}
+${tcp_portmon 1 32767 rhost 2} ${alignr} ${tcp_portmon 1 32767 lservice 2}
+${tcp_portmon 1 32767 rhost 3} ${alignr} ${tcp_portmon 1 32767 lservice 3}
+${color #00B0AE}Outbound Connection ${alignr} Remote Service/Port$color
+${tcp_portmon 32768 61000 rhost 0} ${alignr} ${tcp_portmon 32768 61000 rservice 0}
+${tcp_portmon 32768 61000 rhost 1} ${alignr} ${tcp_portmon 32768 61000 rservice 1}
+${tcp_portmon 32768 61000 rhost 2} ${alignr} ${tcp_portmon 32768 61000 rservice 2}
+${tcp_portmon 32768 61000 rhost 3} ${alignr} ${tcp_portmon 32768 61000 rservice 3}
+${tcp_portmon 32768 61000 rhost 4} ${alignr} ${tcp_portmon 32768 61000 rservice 4}
+${tcp_portmon 32768 61000 rhost 5} ${alignr} ${tcp_portmon 32768 61000 rservice 5}
